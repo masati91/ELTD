@@ -1,8 +1,10 @@
 # EdgeLess Layer for Recyclable Trash Detection
 
-![image](doc/model Architecture.jpg)
+![ELTD](./doc/model Architecture.jpg)
 
 ### Align Deep Features for Oriented Object Detection
+
+
 
 
 The repo is based on **[mmdetection](https://github.com/open-mmlab/mmdetection)**.
