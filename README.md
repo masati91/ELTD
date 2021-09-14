@@ -50,7 +50,7 @@ mmdetection
 
 #### Train
 
-* To train ELTD (ResNet-50, anchor-free)
+* To train ELTD (ex. ResNet-50, anchor-free)
 
 ```
 python tools/train.py --config configs/eltd/eltd_r50_fpn_1x_coco.py
