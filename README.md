@@ -83,24 +83,24 @@ python demo/f1score/f1_score.py --gt_file ${ANSWER_FILE} --pred_file ${YOUR_ANSW
 
 * Small Size Backbone
 
-|Model          |    Backbone     |    F1 Score  |  mAP  | Download |
+|Model          |    Backbone     |    F1 Score  |  mAP  | Pretrained models |
 |:-------------:| :-------------: | :-----------:| :---: | :-------:|
-|YOLOv3    |  Darknet-53  |  71.379 |0.239 |[model]|
-|SSD       |  VGG16       |  75.573 |0.307 |[model]|
-|RetinaNet |  R-50-FPN    |  77.161 |0.353 |[model]|
-|YOLOF     |  R-50-FPN    |  82.404 |0.458 |[model]|
-|SABL      |  R-50-FPN    |  79.805 |0.475 |[model]|
-|FSAF      |   R-50-FPN   |  80.212 |0.479 |[model]|
-|**ELTD**  |   **R-50-FPN**   |  **82.849**  |**0.518** |[model]|
+|YOLOv3    |  Darknet-53  |  71.379 |0.239 |[Download](https://drive.google.com/file/d/1j5gocy38kWh0FnS9yEnTD-R-hcNJi--c/view?usp=sharing)|
+|SSD       |  VGG16       |  75.573 |0.307 |[Download](https://drive.google.com/file/d/1j0nEuIso0H56_i9ERkZbdK1Ow11MbxOd/view?usp=sharing)|
+|RetinaNet |  R-50-FPN    |  77.161 |0.353 |[Download](https://drive.google.com/file/d/1L5nEZX5j11dvs4qkBCPCIeAQ70JvWfH3/view?usp=sharing)|
+|YOLOF     |  R-50-FPN    |  82.404 |0.458 |[Download](https://drive.google.com/file/d/1j3PLLx0ZbN_X9msmFtfLVrqSKICkGPYr/view?usp=sharing)|
+|SABL      |  R-50-FPN    |  79.805 |0.475 |[Download](https://drive.google.com/file/d/1e4nMsWcJz5tFpGAYF9BoF3ZkV9Ungi77/view?usp=sharing)|
+|FSAF      |   R-50-FPN   |  80.212 |0.479 |[Download](https://drive.google.com/file/d/1KE512iI6W0rYqYoZ_jAdAkIkV5w0ECO0/view?usp=sharing)|
+|**ELTD**  |   **R-50-FPN**   |  **82.849**  |**0.518** |[model](https://drive.google.com/file/d/15tNF1qiDDHKERrxVUeE017GjWW2deqKQ/view?usp=sharing)|
 
 * Large Size Backbone
 
-|Model          |    Backbone     |    F1 Score  |  mAP  | Download |
+|Model          |    Backbone     |    F1 Score  |  mAP  | Pretrained models |
 |:-------------:| :-------------: | :-----------:| :---: | :-------:|
-|CornerNet      |  Hourglass104  |  84.724 | 0.575 |[model]|
-|CentripetalNet |  Hourglass104  |  79.326 | 0.586 |[model]|
-|**ELTD**       |   R-101-FPN    |  84.899 | 0.545 |[model]|
-|**ELTD**       |  **X-101-64x4d-FPN**   |  **85.594** |**0.596** |[model]|
+|CornerNet      |  Hourglass104  |  84.724 | 0.575 |[Download](https://drive.google.com/file/d/1957d5S29wC77OQPQt92L52Vmtjzbryy3/view?usp=sharing)|
+|CentripetalNet |  Hourglass104  |  79.326 | 0.586 |[Download](https://drive.google.com/file/d/175NUMA2CFsJ4DntoVdlUKVxqAjEdwaRq/view?usp=sharing)|
+|**ELTD**       |   R-101-FPN    |  84.899 | 0.545 |[Download](https://drive.google.com/file/d/1WsQkUNNm2W3y6dfp7vzfUsfahgKFBLVn/view?usp=sharing)|
+|**ELTD**       |  **X-101-64x4d-FPN**   |  **85.594** |**0.596** |[model](https://drive.google.com/file/d/15m57mcpxHermPc_betT8_LOVMbwFKUtR/view?usp=sharing)|
 
 
 
