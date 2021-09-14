@@ -94,7 +94,7 @@ python demo/f1score/f1_score.py --gt_file ${ANSWER_FILE} --pred_file ${YOUR_ANSW
 |**ELTD**  |   **R-50-FPN**   |  **0.518**  |**0.678** |[model]|
 
 * Large Size Backbone
-* 
+
 |Model          |    Backbone     |    F1 Score  |  mAP  | Download |
 |:-------------:| :-------------: | :-----------:| :---: | :-------:|
 |CornerNet      |  Hourglass104  |  84.724 | 0.575 |[model]|
