@@ -1,14 +1,16 @@
 # EdgeLess Layer for Recyclable Trash Detection
 
+![](doc/model Architecture.jpg)
+
 ### Align Deep Features for Oriented Object Detection
 
 
-The repo is based on [mmdetection](https://github.com/open-mmlab/mmdetection).
+The repo is based on **[mmdetection](https://github.com/open-mmlab/mmdetection)**.
 
 
 
-## Benchmark and model zoo
-* **[Original implementation](https://github.com/csuhan/s2anet/tree/original_version) on DOTA**
+## Benchmark
+
 
 |Model          |    Backbone     |    MS  |  Rotate | Lr schd  | Inf time (fps) | box AP (ori./now) | Download|
 |:-------------:| :-------------: | :-----:| :-----: | :-----:  | :------------: | :----: | :---------------------------------------------------------------------------------------: |
