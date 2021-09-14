@@ -51,10 +51,9 @@ mmdetection
 #### Train
 
 * To train ELTD (ResNet-50, anchor-based)
+
 ```
-
 python tools/train.py --config configs/eltd/eltd_r50_fpn_1x_coco.py
-
 ```
 
 
@@ -62,9 +61,16 @@ python tools/train.py --config configs/eltd/eltd_r50_fpn_1x_coco.py
 ### Test
 
 
+```
+python demo/masati_inference.py --config ${CONFIG_FILE} --imgpath ${INPUT_IAMGE_FILE} --checkpoint ${CHECKPOINT_FILE}
+```
+Optional arguments:
+- `--config ${CONFIG_FILE}`: Model config file
+- `--imgpath ${INPUT_IAMGE_FILE}` : Path to folder with images to test
+- `--checkpoint ${CHECKPOINT_FILE}` : Model checkpoint file
 
 
-## Benchmark
+#### Benchmark
 
 
 |Model          |    Backbone     |    MS  |  Rotate | Lr schd  | Inf time (fps) | box AP (ori./now) | Download|
