@@ -91,7 +91,7 @@ python demo/f1score/f1_score.py --gt_file ${ANSWER_FILE} --pred_file ${YOUR_ANSW
 |YOLOF     |  R-50-FPN    |  82.404 |0.458 |[model]|
 |SABL      |  R-50-FPN    |  79.805 |0.475 |[model]|
 |FSAF      |   R-50-FPN   |  80.212 |0.479 |[model]|
-|**ELTD**  |   **R-50-FPN**   |  **0.518**  |**0.678** |[model]|
+|**ELTD**  |   **R-50-FPN**   |  **82.849**  |**0.518** |[model]|
 
 * Large Size Backbone
 
