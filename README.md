@@ -81,13 +81,26 @@ python demo/f1score/f1_score.py --gt_file ${ANSWER_FILE} --pred_file ${YOUR_ANSW
 
 #### Benchmark
 
+* Small Size Backbone
 
-|Model          |    Backbone     |    MS  |  Rotate | Lr schd  | Inf time (fps) | box AP (ori./now) | Download|
-|:-------------:| :-------------: | :-----:| :-----: | :-----:  | :------------: | :----: | :---------------------------------------------------------------------------------------: |
-|RetinaNet      |    R-50-FPN     |   -     |   -    |   1x     |      16.0      |  68.05/68.40 |        [model](https://drive.google.com/file/d/1ZUc8VUDOkTnVA1FFNuINm2U39h0anLPm/view?usp=sharing)        |
-|S<sup>2</sup>A-Net         |    R-50-FPN     |   -     |   -    |   1x     |      16.0      |  74.12/73.99|    [model](https://drive.google.com/file/d/19gwDSzCx0uToqI9LyeAg_yXNLgK3sbl_/view?usp=sharing)    |
-|S<sup>2</sup>A-Net         |    R-50-FPN     |   ✓     |  ✓     |   1x     |      16.0      |  79.42 |    [model](https://drive.google.com/file/d/1W-JPfoBPHdOxY6KqsD0ZhhLjqNBS7UUN/view?usp=sharing)    |
-|S<sup>2</sup>A-Net         |    R-101-FPN    |   ✓     |  ✓     |   1x     |      12.7      |  79.15 |    [model](https://drive.google.com/file/d/1Jkbx-WvKhokEOlWR7WLKxTpH4hDTp-Tb/view?usp=sharing)            |
+|Model          |    Backbone     |    F1 Score  |  mAP  | Download |
+|:-------------:| :-------------: | :-----------:| :---: | :-------:|
+|YOLOv3    |  Darknet-53  |  71.379 |0.239 |[model]|
+|SSD       |  VGG16       |  75.573 |0.307 |[model]|
+|RetinaNet |  R-50-FPN    |  77.161 |0.353 |[model]|
+|YOLOF     |  R-50-FPN    |  82.404 |0.458 |[model]|
+|SABL      |  R-50-FPN    |  79.805 |0.475 |[model]|
+|FSAF      |   R-50-FPN   |  80.212 |0.479 |[model]|
+|**ELTD**  |   R-50-FPN   |  **0.518**  |**0.678** |[model]|
+
+* Large Size Backbone
+* 
+|Model          |    Backbone     |    F1 Score  |  mAP  | Download |
+|:-------------:| :-------------: | :-----------:| :---: | :-------:|
+|CornerNet      |  Hourglass104  |  84.724 | 0.575 |[model]|
+|CentripetalNet |  Hourglass104  |  79.326 | 0.586 |[model]|
+|**ELTD**       |   R-101-FPN    |  84.899 | 0.545 |[model]|
+|**ELTD**       |  X-101-64x4d-FPN   |  **85.594** |**0.596** |[model]|
 
 
 
