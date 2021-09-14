@@ -76,8 +76,8 @@ If you want to specify the result save directory in the command, you can edit an
 * Confirm the `demo/f1score/sample_GT.csv` file. (If you test with your image, you have to write the csv file.)
 
 ```
-python demo/f1score/f1_score.py
-```
+python demo/f1score/f1_score.py --gt_file ${ANSWER_FILE} --pred_file ${YOUR_ANSWER_FILE}
+``` 
 
 #### Benchmark
 
