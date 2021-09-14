@@ -23,7 +23,7 @@ All checkpoints here are trained with the [Original version](https://github.com/
 
 ## Installation
 
-Please refer to [install.md](docs/INSTALL.md) for installation and dataset preparation.
+Please refer to [install.md](install.md) for installation and dataset preparation.
 
 
 ## Getting Started
