@@ -31,9 +31,26 @@ Please refer to [install.md](install.md) for installation and dataset preparatio
 #### Build Recyclables dataset (recycable dataset{})
 
 * Download train2017, val2017 and annotations
+* Prepare dataset
+
+```text
+mmdetection
+├── mmdet
+├── tools
+├── configs
+├── data
+│   ├── coco
+│   │   ├── annotations
+│   │   ├── train2017
+│   │   ├── val2017
+```
+
+* Check the model config
+
 
 #### Train
 
+* To train ELTD (ResNet-50, anchor-based)
 ```
 
 python tools/train.py --config configs/eltd/eltd_r50_fpn_1x_coco.py
@@ -42,7 +59,9 @@ python tools/train.py --config configs/eltd/eltd_r50_fpn_1x_coco.py
 
 
 
-**Test**
+### Test
+
+
 
 
 ## Benchmark
