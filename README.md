@@ -1,6 +1,8 @@
 # EdgeLess Layer for Recyclable Trash Detection
 
-![ELTD](docs/model Architecture.jpg)
+![ELTD](./docs/model_Architecture.jpg)
+
+
 
 ### Align Deep Features for Oriented Object Detection
 
