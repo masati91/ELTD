@@ -50,7 +50,7 @@ mmdetection
 
 #### Train
 
-* To train ELTD (ResNet-50, anchor-based)
+* To train ELTD (ResNet-50, anchor-free)
 
 ```
 python tools/train.py --config configs/eltd/eltd_r50_fpn_1x_coco.py
@@ -69,6 +69,15 @@ Optional arguments:
 - `--imgpath ${INPUT_IAMGE_FILE}` : Path to folder with images to test
 - `--checkpoint ${CHECKPOINT_FILE}` : Model checkpoint file
 
+If you want to specify the result save directory in the command, you can edit an argument `--savepath ${YOUR_WORK_DIR}`.
+
+#### F1 Score
+
+* Confirm the `demo/f1score/sample_GT.csv` file. (If you test with your image, you have to write the csv file.)
+
+```
+python demo/f1score/f1_score.py
+```
 
 #### Benchmark
 
@@ -79,9 +88,6 @@ Optional arguments:
 |S<sup>2</sup>A-Net         |    R-50-FPN     |   -     |   -    |   1x     |      16.0      |  74.12/73.99|    [model](https://drive.google.com/file/d/19gwDSzCx0uToqI9LyeAg_yXNLgK3sbl_/view?usp=sharing)    |
 |S<sup>2</sup>A-Net         |    R-50-FPN     |   ✓     |  ✓     |   1x     |      16.0      |  79.42 |    [model](https://drive.google.com/file/d/1W-JPfoBPHdOxY6KqsD0ZhhLjqNBS7UUN/view?usp=sharing)    |
 |S<sup>2</sup>A-Net         |    R-101-FPN    |   ✓     |  ✓     |   1x     |      12.7      |  79.15 |    [model](https://drive.google.com/file/d/1Jkbx-WvKhokEOlWR7WLKxTpH4hDTp-Tb/view?usp=sharing)            |
-
-*Note that the mAP reported here is a little different from the original paper. All results are reported on DOTA-v1.0 *test set*. 
-All checkpoints here are trained with the [Original version](https://github.com/csuhan/s2anet/tree/original_version), and **not compatible** with the updated version.
 
 
 
