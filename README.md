@@ -28,7 +28,7 @@ Please refer to [install.md](docs/INSTALL.md) for installation and dataset prepa
 
 ## Getting Started
 
-Please see [getting_started.md](docs/GETTING_STARTED.md) for the basic usage of MMDetection.
+Please see [getting_started.md](get_started.md) for the basic usage of MMDetection.
 
 
 
