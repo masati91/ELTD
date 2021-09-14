@@ -3,7 +3,7 @@
 ![ELTD](./docs/model_Architecture.jpg)
 
 
-## ntroduction
+## Introduction
 
 We propose a novel anchor-free model with an edgeless kernel for recognizing and classifying complex unstructured recyclables, and a recyclables dataset required for model training. 
 
@@ -19,6 +19,31 @@ And we shall show that the AP score is improved by 3.9\% and the F1 score by mor
 The repo is based on **[mmdetection](https://github.com/open-mmlab/mmdetection)**.
 
 
+## Installation
+
+Please refer to [install.md](install.md) for installation and dataset preparation.
+
+
+## Getting Started
+
+### Train
+
+#### Build Recyclables dataset (recycable dataset{})
+
+* Download train2017, val2017 and annotations
+
+#### Train
+
+```
+
+python tools/train.py --config configs/eltd/eltd_r50_fpn_1x_coco.py
+
+```
+
+
+
+**Test**
+
 
 ## Benchmark
 
@@ -32,16 +57,6 @@ The repo is based on **[mmdetection](https://github.com/open-mmlab/mmdetection)*
 
 *Note that the mAP reported here is a little different from the original paper. All results are reported on DOTA-v1.0 *test set*. 
 All checkpoints here are trained with the [Original version](https://github.com/csuhan/s2anet/tree/original_version), and **not compatible** with the updated version.
-
-
-## Installation
-
-Please refer to [install.md](install.md) for installation and dataset preparation.
-
-
-## Getting Started
-
-Please see [getting_started.md](get_started.md) for the basic usage of MMDetection.
 
 
 
