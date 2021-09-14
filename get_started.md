@@ -11,7 +11,7 @@ Compatible MMDetection and MMCV versions are shown as below. Please install the 
 
 | MMDetection version |    MMCV version     |
 |:-------------------:|:-------------------:|
-| 2.9.0               | mmcv-full>=1.2.4, <1.4.0 |
+| 2.10.0               | mmcv-full>=1.2.4, <1.4.0 |
 
 **Note:** You need to run `pip uninstall mmcv` first if you have mmcv installed.
 If mmcv and mmcv-full are both installed, there will be `ModuleNotFoundError`.
@@ -23,35 +23,16 @@ If mmcv and mmcv-full are both installed, there will be `ModuleNotFoundError`.
 1. Create a conda virtual environment and activate it.
 
     ```shell
-    conda create -n openmmlab python=3.7 -y
-    conda activate openmmlab
+    conda create -n ELTD python=3.7
+    conda activate ELTD
     ```
 
 2. Install PyTorch and torchvision following the [official instructions](https://pytorch.org/), e.g.,
 
     ```shell
-    conda install pytorch torchvision -c pytorch
+    conda install pytorch==1.6.0 torchvision==0.7.0 cudatoolkit=10.1 -c pytorch
     ```
-
-    Note: Make sure that your compilation CUDA version and runtime CUDA version match.
-    You can check the supported CUDA version for precompiled packages on the [PyTorch website](https://pytorch.org/).
-
-    `E.g.1` If you have CUDA 10.1 installed under `/usr/local/cuda` and would like to install
-    PyTorch 1.5, you need to install the prebuilt PyTorch with CUDA 10.1.
-
-    ```shell
-    conda install pytorch cudatoolkit=10.1 torchvision -c pytorch
-    ```
-
-    `E.g. 2` If you have CUDA 9.2 installed under `/usr/local/cuda` and would like to install
-    PyTorch 1.3.1., you need to install the prebuilt PyTorch with CUDA 9.2.
-
-    ```shell
-    conda install pytorch=1.3.1 cudatoolkit=9.2 torchvision=0.4.2 -c pytorch
-    ```
-
-    If you build PyTorch from source instead of installing the prebuilt pacakge,
-    you can use more CUDA versions such as 9.0.
+    
 
 ### Install MMDetection
 
@@ -68,48 +49,22 @@ Or you can still install MMDetection manually:
 1. Install mmcv-full.
 
     ```shell
-    pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/{cu_version}/{torch_version}/index.html
+    pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu101/torch1.6.0/index.html
     ```
 
-    Please replace `{cu_version}` and `{torch_version}` in the url to your desired one. For example, to install the latest `mmcv-full` with `CUDA 11.0` and `PyTorch 1.7.0`, use the following command:
-
-    ```shell
-    pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu110/torch1.7.0/index.html
-    ```
-
-    See [here](https://github.com/open-mmlab/mmcv#installation) for different versions of MMCV compatible to different PyTorch and CUDA versions.
-
-    Optionally you can compile mmcv from source if you need to develop both mmcv and mmdet. Refer to the [guide](https://github.com/open-mmlab/mmcv#installation) for details.
 
 2. Install MMDetection.
 
     You can simply install mmdetection with the following command:
 
-    ```shell
-    pip install mmdet
-    ```
-
-    or clone the repository and then install it:
 
     ```shell
-    git clone https://github.com/open-mmlab/mmdetection.git
+    git clone -b v2.12.0 https://github.com/open-mmlab/mmdetection.git
     cd mmdetection
     pip install -r requirements/build.txt
     pip install -v -e .  # or "python setup.py develop"
     ```
-
-3. Install extra dependencies for Instaboost, Panoptic Segmentation, LVIS dataset, or Albumentations.
-
-    ```shell
-    # for instaboost
-    pip install instaboostfast
-    # for panoptic segmentation
-    pip install git+https://github.com/cocodataset/panopticapi.git
-    # for LVIS dataset
-    pip install git+https://github.com/lvis-dataset/lvis-api.git
-    # for albumentations
-    pip install albumentations>=0.3.2 --no-binary imgaug,albumentations
-    ```
+    
 
 **Note:**
 
