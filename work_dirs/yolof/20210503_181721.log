@@ -1,0 +1,451 @@
+2021-05-03 18:17:21,831 - mmdet - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.7.10 (default, Feb 26 2021, 18:47:35) [GCC 7.3.0]
+CUDA available: True
+GPU 0,1: Quadro RTX 6000
+CUDA_HOME: /usr/local/cuda
+NVCC: Cuda compilation tools, release 10.0, V10.0.130
+GCC: gcc (Ubuntu 5.4.0-6ubuntu1~16.04.12) 5.4.0 20160609
+PyTorch: 1.6.0
+PyTorch compiling details: PyTorch built with:
+  - GCC 7.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2021.2-Product Build 20210312 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v1.5.0 (Git Hash e2ac1fac44c5078ca927cb9b90e1b3066a0b2ed0)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 10.2
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 7.6.5
+  - Magma 2.5.2
+  - Build settings: BLAS=MKL, BUILD_TYPE=Release, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DUSE_VULKAN_WRAPPER -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, USE_CUDA=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_STATIC_DISPATCH=OFF, 
+
+TorchVision: 0.7.0
+OpenCV: 4.4.0
+MMCV: 1.3.3
+MMCV Compiler: GCC 7.3
+MMCV CUDA Compiler: 10.2
+MMDetection: 2.12.0+931d96e
+------------------------------------------------------------
+
+2021-05-03 18:17:22,162 - mmdet - INFO - Distributed training: False
+2021-05-03 18:17:22,392 - mmdet - INFO - Config:
+dataset_type = 'CocoDataset'
+data_root = 'data/coco/'
+img_norm_cfg = dict(
+    mean=[103.53, 116.28, 123.675], std=[1.0, 1.0, 1.0], to_rgb=False)
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(type='LoadAnnotations', with_bbox=True),
+    dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
+    dict(type='RandomFlip', flip_ratio=0.5),
+    dict(type='RandomShift', shift_ratio=0.5, max_shift_px=32),
+    dict(
+        type='Normalize',
+        mean=[103.53, 116.28, 123.675],
+        std=[1.0, 1.0, 1.0],
+        to_rgb=False),
+    dict(type='Pad', size_divisor=32),
+    dict(type='DefaultFormatBundle'),
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
+]
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(
+        type='MultiScaleFlipAug',
+        img_scale=(1333, 800),
+        flip=False,
+        transforms=[
+            dict(type='Resize', keep_ratio=True),
+            dict(type='RandomFlip'),
+            dict(
+                type='Normalize',
+                mean=[103.53, 116.28, 123.675],
+                std=[1.0, 1.0, 1.0],
+                to_rgb=False),
+            dict(type='Pad', size_divisor=32),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='Collect', keys=['img'])
+        ])
+]
+data = dict(
+    samples_per_gpu=8,
+    workers_per_gpu=8,
+    train=dict(
+        type='CocoDataset',
+        ann_file='data/coco/annotations/instances_train2017.json',
+        img_prefix='data/coco/train2017/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations', with_bbox=True),
+            dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
+            dict(type='RandomFlip', flip_ratio=0.5),
+            dict(type='RandomShift', shift_ratio=0.5, max_shift_px=32),
+            dict(
+                type='Normalize',
+                mean=[103.53, 116.28, 123.675],
+                std=[1.0, 1.0, 1.0],
+                to_rgb=False),
+            dict(type='Pad', size_divisor=32),
+            dict(type='DefaultFormatBundle'),
+            dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
+        ]),
+    val=dict(
+        type='CocoDataset',
+        ann_file='data/coco/annotations/instances_val2017.json',
+        img_prefix='data/coco/val2017/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='MultiScaleFlipAug',
+                img_scale=(1333, 800),
+                flip=False,
+                transforms=[
+                    dict(type='Resize', keep_ratio=True),
+                    dict(type='RandomFlip'),
+                    dict(
+                        type='Normalize',
+                        mean=[103.53, 116.28, 123.675],
+                        std=[1.0, 1.0, 1.0],
+                        to_rgb=False),
+                    dict(type='Pad', size_divisor=32),
+                    dict(type='ImageToTensor', keys=['img']),
+                    dict(type='Collect', keys=['img'])
+                ])
+        ]),
+    test=dict(
+        type='CocoDataset',
+        ann_file='data/coco/annotations/instances_val2017.json',
+        img_prefix='data/coco/val2017/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='MultiScaleFlipAug',
+                img_scale=(1333, 800),
+                flip=False,
+                transforms=[
+                    dict(type='Resize', keep_ratio=True),
+                    dict(type='RandomFlip'),
+                    dict(
+                        type='Normalize',
+                        mean=[103.53, 116.28, 123.675],
+                        std=[1.0, 1.0, 1.0],
+                        to_rgb=False),
+                    dict(type='Pad', size_divisor=32),
+                    dict(type='ImageToTensor', keys=['img']),
+                    dict(type='Collect', keys=['img'])
+                ])
+        ]))
+evaluation = dict(interval=1, metric='bbox')
+optimizer = dict(
+    type='SGD',
+    lr=0.12,
+    momentum=0.9,
+    weight_decay=0.0001,
+    paramwise_cfg=dict(
+        norm_decay_mult=0.0,
+        custom_keys=dict(backbone=dict(lr_mult=0.3333333333333333))))
+optimizer_config = dict(grad_clip=None)
+lr_config = dict(
+    policy='step',
+    warmup='linear',
+    warmup_iters=1500,
+    warmup_ratio=0.00066667,
+    step=[8, 11])
+runner = dict(type='EpochBasedRunner', max_epochs=12)
+checkpoint_config = dict(interval=1)
+log_config = dict(interval=50, hooks=[dict(type='TextLoggerHook')])
+custom_hooks = [dict(type='NumClassCheckHook')]
+dist_params = dict(backend='nccl')
+log_level = 'INFO'
+load_from = None
+resume_from = None
+workflow = [('train', 1)]
+model = dict(
+    type='YOLOF',
+    pretrained='open-mmlab://detectron/resnet50_caffe',
+    backbone=dict(
+        type='ResNet',
+        depth=50,
+        num_stages=4,
+        out_indices=(3, ),
+        frozen_stages=1,
+        norm_cfg=dict(type='BN', requires_grad=False),
+        norm_eval=True,
+        style='caffe'),
+    neck=dict(
+        type='DilatedEncoder',
+        in_channels=2048,
+        out_channels=512,
+        block_mid_channels=128,
+        num_residual_blocks=4),
+    bbox_head=dict(
+        type='YOLOFHead',
+        num_classes=10,
+        in_channels=512,
+        reg_decoded_bbox=True,
+        anchor_generator=dict(
+            type='AnchorGenerator',
+            ratios=[1.0],
+            scales=[1, 2, 4, 8, 16],
+            strides=[32]),
+        bbox_coder=dict(
+            type='DeltaXYWHBBoxCoder',
+            target_means=[0.0, 0.0, 0.0, 0.0],
+            target_stds=[1.0, 1.0, 1.0, 1.0],
+            add_ctr_clamp=True,
+            ctr_clamp=32),
+        loss_cls=dict(
+            type='FocalLoss',
+            use_sigmoid=True,
+            gamma=2.0,
+            alpha=0.25,
+            loss_weight=1.0),
+        loss_bbox=dict(type='GIoULoss', loss_weight=1.0)),
+    train_cfg=dict(
+        assigner=dict(
+            type='UniformAssigner', pos_ignore_thr=0.15, neg_ignore_thr=0.7),
+        allowed_border=-1,
+        pos_weight=-1,
+        debug=False),
+    test_cfg=dict(
+        nms_pre=1000,
+        min_bbox_size=0,
+        score_thr=0.05,
+        nms=dict(type='nms', iou_threshold=0.6),
+        max_per_img=100))
+work_dir = './work_dirs/yolof_r50_c5_8x8_1x_coco'
+gpu_ids = [1]
+
+2021-05-03 18:17:28,449 - mmdet - INFO - Start running, host: ubuntu@nipa2021-1297, work_dir: /home/ubuntu/masati/mmdetection/work_dirs/yolof_r50_c5_8x8_1x_coco
+2021-05-03 18:17:28,449 - mmdet - INFO - workflow: [('train', 1)], max: 12 epochs
+2021-05-03 18:18:04,357 - mmdet - INFO - Epoch [1][50/791]	lr: 3.997e-03, eta: 1:52:10, time: 0.713, data_time: 0.090, memory: 8413, loss_cls: 0.8167, loss_bbox: 0.8430, loss: 1.6597
+2021-05-03 18:18:37,751 - mmdet - INFO - Epoch [1][100/791]	lr: 7.995e-03, eta: 1:48:03, time: 0.668, data_time: 0.032, memory: 8413, loss_cls: 0.5765, loss_bbox: 0.7541, loss: 1.3306
+2021-05-03 18:19:09,055 - mmdet - INFO - Epoch [1][150/791]	lr: 1.199e-02, eta: 1:44:08, time: 0.626, data_time: 0.027, memory: 8413, loss_cls: 0.4937, loss_bbox: 0.6796, loss: 1.1733
+2021-05-03 18:19:40,550 - mmdet - INFO - Epoch [1][200/791]	lr: 1.599e-02, eta: 1:42:04, time: 0.630, data_time: 0.027, memory: 8413, loss_cls: 0.4521, loss_bbox: 0.6630, loss: 1.1151
+2021-05-03 18:20:11,992 - mmdet - INFO - Epoch [1][250/791]	lr: 1.999e-02, eta: 1:40:35, time: 0.629, data_time: 0.027, memory: 8413, loss_cls: 0.4142, loss_bbox: 0.6202, loss: 1.0344
+2021-05-03 18:20:43,571 - mmdet - INFO - Epoch [1][300/791]	lr: 2.398e-02, eta: 1:39:30, time: 0.632, data_time: 0.027, memory: 8413, loss_cls: 0.4057, loss_bbox: 0.5936, loss: 0.9993
+2021-05-03 18:21:15,251 - mmdet - INFO - Epoch [1][350/791]	lr: 2.798e-02, eta: 1:38:36, time: 0.634, data_time: 0.028, memory: 8413, loss_cls: 0.3905, loss_bbox: 0.5593, loss: 0.9498
+2021-05-03 18:21:46,801 - mmdet - INFO - Epoch [1][400/791]	lr: 3.198e-02, eta: 1:37:46, time: 0.631, data_time: 0.027, memory: 8413, loss_cls: 0.3847, loss_bbox: 0.5770, loss: 0.9617
+2021-05-03 18:22:18,142 - mmdet - INFO - Epoch [1][450/791]	lr: 3.598e-02, eta: 1:36:55, time: 0.627, data_time: 0.027, memory: 8413, loss_cls: 0.3819, loss_bbox: 0.5492, loss: 0.9311
+2021-05-03 18:22:49,732 - mmdet - INFO - Epoch [1][500/791]	lr: 3.997e-02, eta: 1:36:13, time: 0.632, data_time: 0.027, memory: 8413, loss_cls: 0.3788, loss_bbox: 0.5537, loss: 0.9324
+2021-05-03 18:23:21,313 - mmdet - INFO - Epoch [1][550/791]	lr: 4.397e-02, eta: 1:35:32, time: 0.632, data_time: 0.027, memory: 8413, loss_cls: 0.3750, loss_bbox: 0.5351, loss: 0.9101
+2021-05-03 18:23:52,679 - mmdet - INFO - Epoch [1][600/791]	lr: 4.797e-02, eta: 1:34:50, time: 0.627, data_time: 0.028, memory: 8413, loss_cls: 0.3692, loss_bbox: 0.5397, loss: 0.9090
+2021-05-03 18:24:24,326 - mmdet - INFO - Epoch [1][650/791]	lr: 5.197e-02, eta: 1:34:13, time: 0.633, data_time: 0.027, memory: 8413, loss_cls: 0.3529, loss_bbox: 0.5225, loss: 0.8754
+2021-05-03 18:24:55,873 - mmdet - INFO - Epoch [1][700/791]	lr: 5.596e-02, eta: 1:33:36, time: 0.631, data_time: 0.027, memory: 8413, loss_cls: 0.3504, loss_bbox: 0.5285, loss: 0.8790
+2021-05-03 18:25:27,186 - mmdet - INFO - Epoch [1][750/791]	lr: 5.996e-02, eta: 1:32:56, time: 0.626, data_time: 0.028, memory: 8413, loss_cls: 0.3577, loss_bbox: 0.5239, loss: 0.8815
+2021-05-03 18:25:52,622 - mmdet - INFO - Saving checkpoint at 1 epochs
+2021-05-03 18:26:13,484 - mmdet - INFO - Evaluating bbox...
+2021-05-03 18:26:16,501 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 18:26:16,501 - mmdet - INFO - Epoch(val) [1][791]	bbox_mAP: 0.1120, bbox_mAP_50: 0.3290, bbox_mAP_75: 0.0320, bbox_mAP_s: 0.0170, bbox_mAP_m: 0.1060, bbox_mAP_l: 0.1430, bbox_mAP_copypaste: 0.112 0.329 0.032 0.017 0.106 0.143
+2021-05-03 18:26:51,176 - mmdet - INFO - Epoch [2][50/791]	lr: 6.724e-02, eta: 1:27:55, time: 0.688, data_time: 0.081, memory: 8413, loss_cls: 0.3255, loss_bbox: 0.4896, loss: 0.8151
+2021-05-03 18:27:22,713 - mmdet - INFO - Epoch [2][100/791]	lr: 7.123e-02, eta: 1:27:34, time: 0.631, data_time: 0.027, memory: 8413, loss_cls: 0.3499, loss_bbox: 0.5137, loss: 0.8636
+2021-05-03 18:27:54,237 - mmdet - INFO - Epoch [2][150/791]	lr: 7.523e-02, eta: 1:27:13, time: 0.630, data_time: 0.027, memory: 8413, loss_cls: 0.3432, loss_bbox: 0.5090, loss: 0.8522
+2021-05-03 18:28:25,748 - mmdet - INFO - Epoch [2][200/791]	lr: 7.923e-02, eta: 1:26:50, time: 0.630, data_time: 0.028, memory: 8413, loss_cls: 0.3803, loss_bbox: 0.5367, loss: 0.9170
+2021-05-03 18:28:57,555 - mmdet - INFO - Epoch [2][250/791]	lr: 8.322e-02, eta: 1:26:29, time: 0.636, data_time: 0.028, memory: 8413, loss_cls: 0.3898, loss_bbox: 0.5308, loss: 0.9206
+2021-05-03 18:29:29,198 - mmdet - INFO - Epoch [2][300/791]	lr: 8.722e-02, eta: 1:26:05, time: 0.633, data_time: 0.027, memory: 8413, loss_cls: 0.3593, loss_bbox: 0.5119, loss: 0.8712
+2021-05-03 18:30:00,747 - mmdet - INFO - Epoch [2][350/791]	lr: 9.122e-02, eta: 1:25:40, time: 0.631, data_time: 0.028, memory: 8413, loss_cls: 0.3377, loss_bbox: 0.4921, loss: 0.8298
+2021-05-03 18:30:32,383 - mmdet - INFO - Epoch [2][400/791]	lr: 9.522e-02, eta: 1:25:16, time: 0.633, data_time: 0.028, memory: 8413, loss_cls: 0.3331, loss_bbox: 0.4876, loss: 0.8207
+2021-05-03 18:31:04,363 - mmdet - INFO - Epoch [2][450/791]	lr: 9.921e-02, eta: 1:24:53, time: 0.640, data_time: 0.030, memory: 8413, loss_cls: 0.3194, loss_bbox: 0.5010, loss: 0.8204
+2021-05-03 18:31:38,384 - mmdet - INFO - Epoch [2][500/791]	lr: 1.032e-01, eta: 1:24:42, time: 0.680, data_time: 0.041, memory: 8413, loss_cls: 0.3125, loss_bbox: 0.4832, loss: 0.7958
+2021-05-03 18:32:09,082 - mmdet - INFO - Epoch [2][550/791]	lr: 1.072e-01, eta: 1:24:09, time: 0.614, data_time: 0.028, memory: 8413, loss_cls: 0.3034, loss_bbox: 0.4714, loss: 0.7748
+2021-05-03 18:32:39,785 - mmdet - INFO - Epoch [2][600/791]	lr: 1.112e-01, eta: 1:23:36, time: 0.614, data_time: 0.028, memory: 8413, loss_cls: 0.3130, loss_bbox: 0.4898, loss: 0.8028
+2021-05-03 18:33:10,607 - mmdet - INFO - Epoch [2][650/791]	lr: 1.152e-01, eta: 1:23:05, time: 0.616, data_time: 0.028, memory: 8413, loss_cls: 0.3116, loss_bbox: 0.4814, loss: 0.7929
+2021-05-03 18:33:41,192 - mmdet - INFO - Epoch [2][700/791]	lr: 1.192e-01, eta: 1:22:32, time: 0.612, data_time: 0.028, memory: 8413, loss_cls: 0.3109, loss_bbox: 0.4874, loss: 0.7984
+2021-05-03 18:34:12,369 - mmdet - INFO - Epoch [2][750/791]	lr: 1.200e-01, eta: 1:22:02, time: 0.624, data_time: 0.028, memory: 8413, loss_cls: 0.2882, loss_bbox: 0.4532, loss: 0.7413
+2021-05-03 18:34:38,191 - mmdet - INFO - Saving checkpoint at 2 epochs
+2021-05-03 18:34:58,719 - mmdet - INFO - Evaluating bbox...
+2021-05-03 18:35:01,172 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 18:35:01,172 - mmdet - INFO - Epoch(val) [2][791]	bbox_mAP: 0.1570, bbox_mAP_50: 0.3710, bbox_mAP_75: 0.0890, bbox_mAP_s: 0.0280, bbox_mAP_m: 0.1640, bbox_mAP_l: 0.2080, bbox_mAP_copypaste: 0.157 0.371 0.089 0.028 0.164 0.208
+2021-05-03 18:35:35,693 - mmdet - INFO - Epoch [3][50/791]	lr: 1.200e-01, eta: 1:19:19, time: 0.685, data_time: 0.081, memory: 8413, loss_cls: 0.2897, loss_bbox: 0.4604, loss: 0.7501
+2021-05-03 18:36:07,279 - mmdet - INFO - Epoch [3][100/791]	lr: 1.200e-01, eta: 1:18:55, time: 0.632, data_time: 0.027, memory: 8413, loss_cls: 0.2743, loss_bbox: 0.4649, loss: 0.7392
+2021-05-03 18:36:38,679 - mmdet - INFO - Epoch [3][150/791]	lr: 1.200e-01, eta: 1:18:29, time: 0.628, data_time: 0.028, memory: 8413, loss_cls: 0.2826, loss_bbox: 0.4720, loss: 0.7545
+2021-05-03 18:37:10,015 - mmdet - INFO - Epoch [3][200/791]	lr: 1.200e-01, eta: 1:18:03, time: 0.627, data_time: 0.027, memory: 8413, loss_cls: 0.2698, loss_bbox: 0.4675, loss: 0.7373
+2021-05-03 18:37:41,362 - mmdet - INFO - Epoch [3][250/791]	lr: 1.200e-01, eta: 1:17:37, time: 0.627, data_time: 0.027, memory: 8413, loss_cls: 0.2603, loss_bbox: 0.4356, loss: 0.6958
+2021-05-03 18:38:12,636 - mmdet - INFO - Epoch [3][300/791]	lr: 1.200e-01, eta: 1:17:10, time: 0.625, data_time: 0.027, memory: 8413, loss_cls: 0.2580, loss_bbox: 0.4524, loss: 0.7104
+2021-05-03 18:38:44,027 - mmdet - INFO - Epoch [3][350/791]	lr: 1.200e-01, eta: 1:16:44, time: 0.628, data_time: 0.027, memory: 8413, loss_cls: 0.2681, loss_bbox: 0.4529, loss: 0.7210
+2021-05-03 18:39:15,306 - mmdet - INFO - Epoch [3][400/791]	lr: 1.200e-01, eta: 1:16:16, time: 0.626, data_time: 0.026, memory: 8413, loss_cls: 0.2610, loss_bbox: 0.4497, loss: 0.7107
+2021-05-03 18:39:46,776 - mmdet - INFO - Epoch [3][450/791]	lr: 1.200e-01, eta: 1:15:49, time: 0.629, data_time: 0.027, memory: 8413, loss_cls: 0.2576, loss_bbox: 0.4416, loss: 0.6992
+2021-05-03 18:40:18,335 - mmdet - INFO - Epoch [3][500/791]	lr: 1.200e-01, eta: 1:15:23, time: 0.631, data_time: 0.027, memory: 8413, loss_cls: 0.2436, loss_bbox: 0.4267, loss: 0.6703
+2021-05-03 18:40:49,729 - mmdet - INFO - Epoch [3][550/791]	lr: 1.200e-01, eta: 1:14:55, time: 0.628, data_time: 0.028, memory: 8413, loss_cls: 0.2468, loss_bbox: 0.4404, loss: 0.6872
+2021-05-03 18:41:21,386 - mmdet - INFO - Epoch [3][600/791]	lr: 1.200e-01, eta: 1:14:28, time: 0.633, data_time: 0.027, memory: 8413, loss_cls: 0.2516, loss_bbox: 0.4452, loss: 0.6968
+2021-05-03 18:41:52,710 - mmdet - INFO - Epoch [3][650/791]	lr: 1.200e-01, eta: 1:14:00, time: 0.626, data_time: 0.028, memory: 8413, loss_cls: 0.2525, loss_bbox: 0.4436, loss: 0.6961
+2021-05-03 18:42:24,094 - mmdet - INFO - Epoch [3][700/791]	lr: 1.200e-01, eta: 1:13:32, time: 0.628, data_time: 0.028, memory: 8413, loss_cls: 0.2427, loss_bbox: 0.4358, loss: 0.6785
+2021-05-03 18:42:55,519 - mmdet - INFO - Epoch [3][750/791]	lr: 1.200e-01, eta: 1:13:04, time: 0.628, data_time: 0.028, memory: 8413, loss_cls: 0.2469, loss_bbox: 0.4277, loss: 0.6746
+2021-05-03 18:43:21,262 - mmdet - INFO - Saving checkpoint at 3 epochs
+2021-05-03 18:43:41,657 - mmdet - INFO - Evaluating bbox...
+2021-05-03 18:43:44,342 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 18:43:44,343 - mmdet - INFO - Epoch(val) [3][791]	bbox_mAP: 0.2520, bbox_mAP_50: 0.5200, bbox_mAP_75: 0.2120, bbox_mAP_s: 0.0170, bbox_mAP_m: 0.2250, bbox_mAP_l: 0.3460, bbox_mAP_copypaste: 0.252 0.520 0.212 0.017 0.225 0.346
+2021-05-03 18:44:18,610 - mmdet - INFO - Epoch [4][50/791]	lr: 1.200e-01, eta: 1:11:05, time: 0.680, data_time: 0.080, memory: 8413, loss_cls: 0.2192, loss_bbox: 0.4170, loss: 0.6362
+2021-05-03 18:44:49,918 - mmdet - INFO - Epoch [4][100/791]	lr: 1.200e-01, eta: 1:10:38, time: 0.626, data_time: 0.027, memory: 8413, loss_cls: 0.2199, loss_bbox: 0.4163, loss: 0.6362
+2021-05-03 18:45:21,124 - mmdet - INFO - Epoch [4][150/791]	lr: 1.200e-01, eta: 1:10:11, time: 0.624, data_time: 0.026, memory: 8413, loss_cls: 0.2155, loss_bbox: 0.4162, loss: 0.6317
+2021-05-03 18:45:52,289 - mmdet - INFO - Epoch [4][200/791]	lr: 1.200e-01, eta: 1:09:43, time: 0.623, data_time: 0.027, memory: 8413, loss_cls: 0.2184, loss_bbox: 0.4290, loss: 0.6474
+2021-05-03 18:46:24,183 - mmdet - INFO - Epoch [4][250/791]	lr: 1.200e-01, eta: 1:09:17, time: 0.638, data_time: 0.028, memory: 8413, loss_cls: 0.2261, loss_bbox: 0.4224, loss: 0.6485
+2021-05-03 18:46:56,085 - mmdet - INFO - Epoch [4][300/791]	lr: 1.200e-01, eta: 1:08:51, time: 0.638, data_time: 0.027, memory: 8413, loss_cls: 0.2240, loss_bbox: 0.4208, loss: 0.6448
+2021-05-03 18:47:27,431 - mmdet - INFO - Epoch [4][350/791]	lr: 1.200e-01, eta: 1:08:23, time: 0.627, data_time: 0.028, memory: 8413, loss_cls: 0.2090, loss_bbox: 0.4014, loss: 0.6104
+2021-05-03 18:47:58,498 - mmdet - INFO - Epoch [4][400/791]	lr: 1.200e-01, eta: 1:07:55, time: 0.621, data_time: 0.027, memory: 8413, loss_cls: 0.2196, loss_bbox: 0.3987, loss: 0.6183
+2021-05-03 18:48:29,894 - mmdet - INFO - Epoch [4][450/791]	lr: 1.200e-01, eta: 1:07:27, time: 0.628, data_time: 0.028, memory: 8413, loss_cls: 0.2087, loss_bbox: 0.4031, loss: 0.6118
+2021-05-03 18:49:01,239 - mmdet - INFO - Epoch [4][500/791]	lr: 1.200e-01, eta: 1:06:59, time: 0.627, data_time: 0.028, memory: 8413, loss_cls: 0.2192, loss_bbox: 0.4195, loss: 0.6387
+2021-05-03 18:49:32,591 - mmdet - INFO - Epoch [4][550/791]	lr: 1.200e-01, eta: 1:06:31, time: 0.627, data_time: 0.027, memory: 8413, loss_cls: 0.2091, loss_bbox: 0.4010, loss: 0.6101
+2021-05-03 18:50:03,943 - mmdet - INFO - Epoch [4][600/791]	lr: 1.200e-01, eta: 1:06:03, time: 0.627, data_time: 0.027, memory: 8413, loss_cls: 0.2020, loss_bbox: 0.4028, loss: 0.6048
+2021-05-03 18:50:35,379 - mmdet - INFO - Epoch [4][650/791]	lr: 1.200e-01, eta: 1:05:34, time: 0.629, data_time: 0.026, memory: 8413, loss_cls: 0.2106, loss_bbox: 0.4003, loss: 0.6110
+2021-05-03 18:51:06,706 - mmdet - INFO - Epoch [4][700/791]	lr: 1.200e-01, eta: 1:05:06, time: 0.627, data_time: 0.028, memory: 8413, loss_cls: 0.2083, loss_bbox: 0.4134, loss: 0.6217
+2021-05-03 18:51:38,154 - mmdet - INFO - Epoch [4][750/791]	lr: 1.200e-01, eta: 1:04:38, time: 0.629, data_time: 0.028, memory: 8413, loss_cls: 0.2043, loss_bbox: 0.3949, loss: 0.5992
+2021-05-03 18:52:03,884 - mmdet - INFO - Saving checkpoint at 4 epochs
+2021-05-03 18:52:24,420 - mmdet - INFO - Evaluating bbox...
+2021-05-03 18:52:27,372 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 18:52:27,372 - mmdet - INFO - Epoch(val) [4][791]	bbox_mAP: 0.2950, bbox_mAP_50: 0.5910, bbox_mAP_75: 0.2750, bbox_mAP_s: 0.0530, bbox_mAP_m: 0.2550, bbox_mAP_l: 0.3390, bbox_mAP_copypaste: 0.295 0.591 0.275 0.053 0.255 0.339
+2021-05-03 18:53:02,424 - mmdet - INFO - Epoch [5][50/791]	lr: 1.200e-01, eta: 1:03:02, time: 0.695, data_time: 0.085, memory: 8413, loss_cls: 0.1901, loss_bbox: 0.3905, loss: 0.5806
+2021-05-03 18:53:33,772 - mmdet - INFO - Epoch [5][100/791]	lr: 1.200e-01, eta: 1:02:34, time: 0.627, data_time: 0.033, memory: 8413, loss_cls: 0.1925, loss_bbox: 0.3982, loss: 0.5907
+2021-05-03 18:54:05,125 - mmdet - INFO - Epoch [5][150/791]	lr: 1.200e-01, eta: 1:02:06, time: 0.627, data_time: 0.035, memory: 8413, loss_cls: 0.1956, loss_bbox: 0.3937, loss: 0.5893
+2021-05-03 18:54:36,914 - mmdet - INFO - Epoch [5][200/791]	lr: 1.200e-01, eta: 1:01:39, time: 0.636, data_time: 0.034, memory: 8413, loss_cls: 0.1945, loss_bbox: 0.3991, loss: 0.5936
+2021-05-03 18:55:08,400 - mmdet - INFO - Epoch [5][250/791]	lr: 1.200e-01, eta: 1:01:11, time: 0.630, data_time: 0.033, memory: 8413, loss_cls: 0.1873, loss_bbox: 0.3925, loss: 0.5798
+2021-05-03 18:55:39,966 - mmdet - INFO - Epoch [5][300/791]	lr: 1.200e-01, eta: 1:00:43, time: 0.631, data_time: 0.034, memory: 8413, loss_cls: 0.1871, loss_bbox: 0.3960, loss: 0.5831
+2021-05-03 18:56:11,515 - mmdet - INFO - Epoch [5][350/791]	lr: 1.200e-01, eta: 1:00:15, time: 0.631, data_time: 0.033, memory: 8413, loss_cls: 0.2039, loss_bbox: 0.3906, loss: 0.5945
+2021-05-03 18:56:42,862 - mmdet - INFO - Epoch [5][400/791]	lr: 1.200e-01, eta: 0:59:47, time: 0.627, data_time: 0.032, memory: 8413, loss_cls: 0.1814, loss_bbox: 0.3714, loss: 0.5528
+2021-05-03 18:57:14,692 - mmdet - INFO - Epoch [5][450/791]	lr: 1.200e-01, eta: 0:59:19, time: 0.637, data_time: 0.032, memory: 8413, loss_cls: 0.1800, loss_bbox: 0.3855, loss: 0.5655
+2021-05-03 18:57:46,296 - mmdet - INFO - Epoch [5][500/791]	lr: 1.200e-01, eta: 0:58:51, time: 0.632, data_time: 0.033, memory: 8413, loss_cls: 0.1840, loss_bbox: 0.3827, loss: 0.5667
+2021-05-03 18:58:17,968 - mmdet - INFO - Epoch [5][550/791]	lr: 1.200e-01, eta: 0:58:23, time: 0.633, data_time: 0.033, memory: 8413, loss_cls: 0.1872, loss_bbox: 0.3852, loss: 0.5724
+2021-05-03 18:58:49,415 - mmdet - INFO - Epoch [5][600/791]	lr: 1.200e-01, eta: 0:57:54, time: 0.629, data_time: 0.034, memory: 8413, loss_cls: 0.1824, loss_bbox: 0.3879, loss: 0.5703
+2021-05-03 18:59:21,345 - mmdet - INFO - Epoch [5][650/791]	lr: 1.200e-01, eta: 0:57:26, time: 0.639, data_time: 0.035, memory: 8413, loss_cls: 0.1832, loss_bbox: 0.3753, loss: 0.5584
+2021-05-03 18:59:53,286 - mmdet - INFO - Epoch [5][700/791]	lr: 1.200e-01, eta: 0:56:58, time: 0.639, data_time: 0.033, memory: 8413, loss_cls: 0.1758, loss_bbox: 0.3763, loss: 0.5521
+2021-05-03 19:00:24,897 - mmdet - INFO - Epoch [5][750/791]	lr: 1.200e-01, eta: 0:56:30, time: 0.632, data_time: 0.033, memory: 8413, loss_cls: 0.1882, loss_bbox: 0.3753, loss: 0.5635
+2021-05-03 19:00:50,509 - mmdet - INFO - Saving checkpoint at 5 epochs
+2021-05-03 19:01:11,279 - mmdet - INFO - Evaluating bbox...
+2021-05-03 19:01:14,025 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 19:01:14,025 - mmdet - INFO - Epoch(val) [5][791]	bbox_mAP: 0.1950, bbox_mAP_50: 0.4220, bbox_mAP_75: 0.1500, bbox_mAP_s: 0.0260, bbox_mAP_m: 0.1900, bbox_mAP_l: 0.2440, bbox_mAP_copypaste: 0.195 0.422 0.150 0.026 0.190 0.244
+2021-05-03 19:01:48,622 - mmdet - INFO - Epoch [6][50/791]	lr: 1.200e-01, eta: 0:55:06, time: 0.686, data_time: 0.086, memory: 8413, loss_cls: 0.1705, loss_bbox: 0.3706, loss: 0.5411
+2021-05-03 19:02:20,282 - mmdet - INFO - Epoch [6][100/791]	lr: 1.200e-01, eta: 0:54:38, time: 0.633, data_time: 0.032, memory: 8413, loss_cls: 0.1688, loss_bbox: 0.3761, loss: 0.5449
+2021-05-03 19:02:51,798 - mmdet - INFO - Epoch [6][150/791]	lr: 1.200e-01, eta: 0:54:09, time: 0.630, data_time: 0.031, memory: 8413, loss_cls: 0.1698, loss_bbox: 0.3701, loss: 0.5399
+2021-05-03 19:03:23,208 - mmdet - INFO - Epoch [6][200/791]	lr: 1.200e-01, eta: 0:53:41, time: 0.628, data_time: 0.031, memory: 8413, loss_cls: 0.1756, loss_bbox: 0.3767, loss: 0.5523
+2021-05-03 19:03:54,401 - mmdet - INFO - Epoch [6][250/791]	lr: 1.200e-01, eta: 0:53:12, time: 0.624, data_time: 0.030, memory: 8413, loss_cls: 0.1607, loss_bbox: 0.3578, loss: 0.5185
+2021-05-03 19:04:25,832 - mmdet - INFO - Epoch [6][300/791]	lr: 1.200e-01, eta: 0:52:43, time: 0.629, data_time: 0.031, memory: 8413, loss_cls: 0.1721, loss_bbox: 0.3710, loss: 0.5431
+2021-05-03 19:04:57,334 - mmdet - INFO - Epoch [6][350/791]	lr: 1.200e-01, eta: 0:52:14, time: 0.630, data_time: 0.030, memory: 8413, loss_cls: 0.1744, loss_bbox: 0.3811, loss: 0.5554
+2021-05-03 19:05:28,808 - mmdet - INFO - Epoch [6][400/791]	lr: 1.200e-01, eta: 0:51:46, time: 0.629, data_time: 0.030, memory: 8413, loss_cls: 0.1717, loss_bbox: 0.3680, loss: 0.5397
+2021-05-03 19:06:00,242 - mmdet - INFO - Epoch [6][450/791]	lr: 1.200e-01, eta: 0:51:17, time: 0.629, data_time: 0.031, memory: 8413, loss_cls: 0.1697, loss_bbox: 0.3719, loss: 0.5416
+2021-05-03 19:06:31,743 - mmdet - INFO - Epoch [6][500/791]	lr: 1.200e-01, eta: 0:50:48, time: 0.630, data_time: 0.030, memory: 8413, loss_cls: 0.1728, loss_bbox: 0.3833, loss: 0.5561
+2021-05-03 19:07:03,095 - mmdet - INFO - Epoch [6][550/791]	lr: 1.200e-01, eta: 0:50:19, time: 0.627, data_time: 0.031, memory: 8413, loss_cls: 0.1681, loss_bbox: 0.3673, loss: 0.5354
+2021-05-03 19:07:34,402 - mmdet - INFO - Epoch [6][600/791]	lr: 1.200e-01, eta: 0:49:50, time: 0.626, data_time: 0.030, memory: 8413, loss_cls: 0.1762, loss_bbox: 0.3744, loss: 0.5507
+2021-05-03 19:08:05,888 - mmdet - INFO - Epoch [6][650/791]	lr: 1.200e-01, eta: 0:49:21, time: 0.630, data_time: 0.030, memory: 8413, loss_cls: 0.1732, loss_bbox: 0.3618, loss: 0.5350
+2021-05-03 19:08:37,303 - mmdet - INFO - Epoch [6][700/791]	lr: 1.200e-01, eta: 0:48:52, time: 0.628, data_time: 0.032, memory: 8413, loss_cls: 0.1654, loss_bbox: 0.3672, loss: 0.5325
+2021-05-03 19:09:08,551 - mmdet - INFO - Epoch [6][750/791]	lr: 1.200e-01, eta: 0:48:22, time: 0.625, data_time: 0.030, memory: 8413, loss_cls: 0.1714, loss_bbox: 0.3783, loss: 0.5498
+2021-05-03 19:09:34,317 - mmdet - INFO - Saving checkpoint at 6 epochs
+2021-05-03 19:09:54,147 - mmdet - INFO - Evaluating bbox...
+2021-05-03 19:09:56,584 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 19:09:56,585 - mmdet - INFO - Epoch(val) [6][791]	bbox_mAP: 0.2440, bbox_mAP_50: 0.5130, bbox_mAP_75: 0.1790, bbox_mAP_s: 0.0480, bbox_mAP_m: 0.2030, bbox_mAP_l: 0.3150, bbox_mAP_copypaste: 0.244 0.513 0.179 0.048 0.203 0.315
+2021-05-03 19:10:31,216 - mmdet - INFO - Epoch [7][50/791]	lr: 1.200e-01, eta: 0:47:07, time: 0.687, data_time: 0.087, memory: 8413, loss_cls: 0.1568, loss_bbox: 0.3649, loss: 0.5217
+2021-05-03 19:11:02,473 - mmdet - INFO - Epoch [7][100/791]	lr: 1.200e-01, eta: 0:46:38, time: 0.625, data_time: 0.029, memory: 8413, loss_cls: 0.1530, loss_bbox: 0.3613, loss: 0.5144
+2021-05-03 19:11:33,216 - mmdet - INFO - Epoch [7][150/791]	lr: 1.200e-01, eta: 0:46:08, time: 0.615, data_time: 0.029, memory: 8413, loss_cls: 0.1666, loss_bbox: 0.3535, loss: 0.5201
+2021-05-03 19:12:04,165 - mmdet - INFO - Epoch [7][200/791]	lr: 1.200e-01, eta: 0:45:39, time: 0.619, data_time: 0.029, memory: 8413, loss_cls: 0.1629, loss_bbox: 0.3576, loss: 0.5205
+2021-05-03 19:12:35,619 - mmdet - INFO - Epoch [7][250/791]	lr: 1.200e-01, eta: 0:45:10, time: 0.629, data_time: 0.030, memory: 8413, loss_cls: 0.1637, loss_bbox: 0.3591, loss: 0.5228
+2021-05-03 19:13:06,870 - mmdet - INFO - Epoch [7][300/791]	lr: 1.200e-01, eta: 0:44:41, time: 0.625, data_time: 0.030, memory: 8413, loss_cls: 0.1536, loss_bbox: 0.3594, loss: 0.5129
+2021-05-03 19:13:38,419 - mmdet - INFO - Epoch [7][350/791]	lr: 1.200e-01, eta: 0:44:12, time: 0.631, data_time: 0.029, memory: 8413, loss_cls: 0.1649, loss_bbox: 0.3538, loss: 0.5188
+2021-05-03 19:14:09,935 - mmdet - INFO - Epoch [7][400/791]	lr: 1.200e-01, eta: 0:43:43, time: 0.630, data_time: 0.029, memory: 8413, loss_cls: 0.1550, loss_bbox: 0.3535, loss: 0.5085
+2021-05-03 19:14:41,283 - mmdet - INFO - Epoch [7][450/791]	lr: 1.200e-01, eta: 0:43:14, time: 0.627, data_time: 0.029, memory: 8413, loss_cls: 0.1612, loss_bbox: 0.3643, loss: 0.5255
+2021-05-03 19:15:12,500 - mmdet - INFO - Epoch [7][500/791]	lr: 1.200e-01, eta: 0:42:44, time: 0.624, data_time: 0.029, memory: 8413, loss_cls: 0.1518, loss_bbox: 0.3562, loss: 0.5080
+2021-05-03 19:15:43,990 - mmdet - INFO - Epoch [7][550/791]	lr: 1.200e-01, eta: 0:42:15, time: 0.630, data_time: 0.030, memory: 8413, loss_cls: 0.1517, loss_bbox: 0.3559, loss: 0.5075
+2021-05-03 19:16:15,325 - mmdet - INFO - Epoch [7][600/791]	lr: 1.200e-01, eta: 0:41:46, time: 0.627, data_time: 0.029, memory: 8413, loss_cls: 0.1560, loss_bbox: 0.3549, loss: 0.5110
+2021-05-03 19:16:46,631 - mmdet - INFO - Epoch [7][650/791]	lr: 1.200e-01, eta: 0:41:16, time: 0.626, data_time: 0.029, memory: 8413, loss_cls: 0.1619, loss_bbox: 0.3603, loss: 0.5222
+2021-05-03 19:17:17,980 - mmdet - INFO - Epoch [7][700/791]	lr: 1.200e-01, eta: 0:40:47, time: 0.627, data_time: 0.029, memory: 8413, loss_cls: 0.1646, loss_bbox: 0.3610, loss: 0.5256
+2021-05-03 19:17:49,419 - mmdet - INFO - Epoch [7][750/791]	lr: 1.200e-01, eta: 0:40:17, time: 0.629, data_time: 0.029, memory: 8413, loss_cls: 0.1620, loss_bbox: 0.3606, loss: 0.5225
+2021-05-03 19:18:15,353 - mmdet - INFO - Saving checkpoint at 7 epochs
+2021-05-03 19:18:36,267 - mmdet - INFO - Evaluating bbox...
+2021-05-03 19:18:39,620 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 19:18:39,620 - mmdet - INFO - Epoch(val) [7][791]	bbox_mAP: 0.2780, bbox_mAP_50: 0.5420, bbox_mAP_75: 0.2570, bbox_mAP_s: 0.0590, bbox_mAP_m: 0.2270, bbox_mAP_l: 0.3790, bbox_mAP_copypaste: 0.278 0.542 0.257 0.059 0.227 0.379
+2021-05-03 19:19:14,490 - mmdet - INFO - Epoch [8][50/791]	lr: 1.200e-01, eta: 0:39:08, time: 0.692, data_time: 0.085, memory: 8413, loss_cls: 0.1592, loss_bbox: 0.3594, loss: 0.5185
+2021-05-03 19:19:45,995 - mmdet - INFO - Epoch [8][100/791]	lr: 1.200e-01, eta: 0:38:39, time: 0.630, data_time: 0.030, memory: 8413, loss_cls: 0.1535, loss_bbox: 0.3527, loss: 0.5062
+2021-05-03 19:20:17,326 - mmdet - INFO - Epoch [8][150/791]	lr: 1.200e-01, eta: 0:38:10, time: 0.627, data_time: 0.030, memory: 8413, loss_cls: 0.1488, loss_bbox: 0.3565, loss: 0.5053
+2021-05-03 19:20:48,779 - mmdet - INFO - Epoch [8][200/791]	lr: 1.200e-01, eta: 0:37:41, time: 0.629, data_time: 0.031, memory: 8413, loss_cls: 0.1553, loss_bbox: 0.3508, loss: 0.5060
+2021-05-03 19:21:20,064 - mmdet - INFO - Epoch [8][250/791]	lr: 1.200e-01, eta: 0:37:11, time: 0.626, data_time: 0.030, memory: 8413, loss_cls: 0.1582, loss_bbox: 0.3604, loss: 0.5185
+2021-05-03 19:21:51,244 - mmdet - INFO - Epoch [8][300/791]	lr: 1.200e-01, eta: 0:36:42, time: 0.624, data_time: 0.029, memory: 8413, loss_cls: 0.1516, loss_bbox: 0.3593, loss: 0.5109
+2021-05-03 19:22:22,590 - mmdet - INFO - Epoch [8][350/791]	lr: 1.200e-01, eta: 0:36:12, time: 0.627, data_time: 0.029, memory: 8413, loss_cls: 0.1542, loss_bbox: 0.3544, loss: 0.5086
+2021-05-03 19:22:53,958 - mmdet - INFO - Epoch [8][400/791]	lr: 1.200e-01, eta: 0:35:43, time: 0.627, data_time: 0.029, memory: 8413, loss_cls: 0.1529, loss_bbox: 0.3634, loss: 0.5163
+2021-05-03 19:23:25,382 - mmdet - INFO - Epoch [8][450/791]	lr: 1.200e-01, eta: 0:35:14, time: 0.628, data_time: 0.030, memory: 8413, loss_cls: 0.1542, loss_bbox: 0.3486, loss: 0.5029
+2021-05-03 19:23:56,833 - mmdet - INFO - Epoch [8][500/791]	lr: 1.200e-01, eta: 0:34:44, time: 0.629, data_time: 0.030, memory: 8413, loss_cls: 0.1471, loss_bbox: 0.3507, loss: 0.4978
+2021-05-03 19:24:28,910 - mmdet - INFO - Epoch [8][550/791]	lr: 1.200e-01, eta: 0:34:15, time: 0.642, data_time: 0.031, memory: 8413, loss_cls: 0.1479, loss_bbox: 0.3475, loss: 0.4955
+2021-05-03 19:25:00,596 - mmdet - INFO - Epoch [8][600/791]	lr: 1.200e-01, eta: 0:33:46, time: 0.634, data_time: 0.030, memory: 8413, loss_cls: 0.1467, loss_bbox: 0.3377, loss: 0.4844
+2021-05-03 19:25:32,309 - mmdet - INFO - Epoch [8][650/791]	lr: 1.200e-01, eta: 0:33:16, time: 0.634, data_time: 0.029, memory: 8413, loss_cls: 0.1525, loss_bbox: 0.3534, loss: 0.5059
+2021-05-03 19:26:03,797 - mmdet - INFO - Epoch [8][700/791]	lr: 1.200e-01, eta: 0:32:47, time: 0.630, data_time: 0.030, memory: 8413, loss_cls: 0.1532, loss_bbox: 0.3633, loss: 0.5165
+2021-05-03 19:26:35,212 - mmdet - INFO - Epoch [8][750/791]	lr: 1.200e-01, eta: 0:32:17, time: 0.628, data_time: 0.031, memory: 8413, loss_cls: 0.1564, loss_bbox: 0.3669, loss: 0.5233
+2021-05-03 19:27:01,189 - mmdet - INFO - Saving checkpoint at 8 epochs
+2021-05-03 19:27:22,142 - mmdet - INFO - Evaluating bbox...
+2021-05-03 19:27:25,010 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 19:27:25,010 - mmdet - INFO - Epoch(val) [8][791]	bbox_mAP: 0.2300, bbox_mAP_50: 0.5300, bbox_mAP_75: 0.1620, bbox_mAP_s: 0.0480, bbox_mAP_m: 0.2280, bbox_mAP_l: 0.2480, bbox_mAP_copypaste: 0.230 0.530 0.162 0.048 0.228 0.248
+2021-05-03 19:27:59,248 - mmdet - INFO - Epoch [9][50/791]	lr: 1.200e-02, eta: 0:31:12, time: 0.679, data_time: 0.082, memory: 8413, loss_cls: 0.1262, loss_bbox: 0.3285, loss: 0.4548
+2021-05-03 19:28:30,820 - mmdet - INFO - Epoch [9][100/791]	lr: 1.200e-02, eta: 0:30:42, time: 0.631, data_time: 0.030, memory: 8413, loss_cls: 0.1166, loss_bbox: 0.3010, loss: 0.4176
+2021-05-03 19:29:02,055 - mmdet - INFO - Epoch [9][150/791]	lr: 1.200e-02, eta: 0:30:13, time: 0.625, data_time: 0.029, memory: 8413, loss_cls: 0.1100, loss_bbox: 0.2830, loss: 0.3930
+2021-05-03 19:29:33,408 - mmdet - INFO - Epoch [9][200/791]	lr: 1.200e-02, eta: 0:29:43, time: 0.627, data_time: 0.029, memory: 8413, loss_cls: 0.1008, loss_bbox: 0.2766, loss: 0.3774
+2021-05-03 19:30:05,098 - mmdet - INFO - Epoch [9][250/791]	lr: 1.200e-02, eta: 0:29:14, time: 0.634, data_time: 0.029, memory: 8413, loss_cls: 0.1034, loss_bbox: 0.2840, loss: 0.3875
+2021-05-03 19:30:36,504 - mmdet - INFO - Epoch [9][300/791]	lr: 1.200e-02, eta: 0:28:45, time: 0.628, data_time: 0.029, memory: 8413, loss_cls: 0.0988, loss_bbox: 0.2725, loss: 0.3713
+2021-05-03 19:31:07,898 - mmdet - INFO - Epoch [9][350/791]	lr: 1.200e-02, eta: 0:28:15, time: 0.628, data_time: 0.029, memory: 8413, loss_cls: 0.1012, loss_bbox: 0.2781, loss: 0.3793
+2021-05-03 19:31:39,257 - mmdet - INFO - Epoch [9][400/791]	lr: 1.200e-02, eta: 0:27:45, time: 0.627, data_time: 0.029, memory: 8413, loss_cls: 0.0974, loss_bbox: 0.2729, loss: 0.3704
+2021-05-03 19:32:10,608 - mmdet - INFO - Epoch [9][450/791]	lr: 1.200e-02, eta: 0:27:16, time: 0.627, data_time: 0.030, memory: 8413, loss_cls: 0.0979, loss_bbox: 0.2733, loss: 0.3712
+2021-05-03 19:32:42,032 - mmdet - INFO - Epoch [9][500/791]	lr: 1.200e-02, eta: 0:26:46, time: 0.628, data_time: 0.028, memory: 8413, loss_cls: 0.0905, loss_bbox: 0.2624, loss: 0.3528
+2021-05-03 19:33:13,532 - mmdet - INFO - Epoch [9][550/791]	lr: 1.200e-02, eta: 0:26:16, time: 0.630, data_time: 0.028, memory: 8413, loss_cls: 0.0927, loss_bbox: 0.2670, loss: 0.3597
+2021-05-03 19:33:44,956 - mmdet - INFO - Epoch [9][600/791]	lr: 1.200e-02, eta: 0:25:47, time: 0.628, data_time: 0.029, memory: 8413, loss_cls: 0.0966, loss_bbox: 0.2734, loss: 0.3700
+2021-05-03 19:34:16,280 - mmdet - INFO - Epoch [9][650/791]	lr: 1.200e-02, eta: 0:25:17, time: 0.627, data_time: 0.030, memory: 8413, loss_cls: 0.0914, loss_bbox: 0.2584, loss: 0.3498
+2021-05-03 19:34:47,810 - mmdet - INFO - Epoch [9][700/791]	lr: 1.200e-02, eta: 0:24:47, time: 0.631, data_time: 0.029, memory: 8413, loss_cls: 0.0920, loss_bbox: 0.2656, loss: 0.3576
+2021-05-03 19:35:19,342 - mmdet - INFO - Epoch [9][750/791]	lr: 1.200e-02, eta: 0:24:18, time: 0.631, data_time: 0.031, memory: 8413, loss_cls: 0.0959, loss_bbox: 0.2714, loss: 0.3672
+2021-05-03 19:35:45,252 - mmdet - INFO - Saving checkpoint at 9 epochs
+2021-05-03 19:36:05,725 - mmdet - INFO - Evaluating bbox...
+2021-05-03 19:36:07,719 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 19:36:07,719 - mmdet - INFO - Epoch(val) [9][791]	bbox_mAP: 0.4440, bbox_mAP_50: 0.6710, bbox_mAP_75: 0.4870, bbox_mAP_s: 0.1010, bbox_mAP_m: 0.3760, bbox_mAP_l: 0.5390, bbox_mAP_copypaste: 0.444 0.671 0.487 0.101 0.376 0.539
+2021-05-03 19:36:42,489 - mmdet - INFO - Epoch [10][50/791]	lr: 1.200e-02, eta: 0:23:16, time: 0.690, data_time: 0.086, memory: 8413, loss_cls: 0.0860, loss_bbox: 0.2541, loss: 0.3401
+2021-05-03 19:37:14,694 - mmdet - INFO - Epoch [10][100/791]	lr: 1.200e-02, eta: 0:22:47, time: 0.644, data_time: 0.032, memory: 8413, loss_cls: 0.0950, loss_bbox: 0.2709, loss: 0.3659
+2021-05-03 19:37:46,627 - mmdet - INFO - Epoch [10][150/791]	lr: 1.200e-02, eta: 0:22:17, time: 0.639, data_time: 0.034, memory: 8413, loss_cls: 0.0872, loss_bbox: 0.2603, loss: 0.3474
+2021-05-03 19:38:17,347 - mmdet - INFO - Epoch [10][200/791]	lr: 1.200e-02, eta: 0:21:47, time: 0.614, data_time: 0.030, memory: 8413, loss_cls: 0.0869, loss_bbox: 0.2570, loss: 0.3440
+2021-05-03 19:38:47,955 - mmdet - INFO - Epoch [10][250/791]	lr: 1.200e-02, eta: 0:21:17, time: 0.612, data_time: 0.029, memory: 8413, loss_cls: 0.0882, loss_bbox: 0.2549, loss: 0.3431
+2021-05-03 19:39:19,890 - mmdet - INFO - Epoch [10][300/791]	lr: 1.200e-02, eta: 0:20:48, time: 0.639, data_time: 0.030, memory: 8413, loss_cls: 0.0875, loss_bbox: 0.2539, loss: 0.3414
+2021-05-03 19:39:51,523 - mmdet - INFO - Epoch [10][350/791]	lr: 1.200e-02, eta: 0:20:18, time: 0.633, data_time: 0.028, memory: 8413, loss_cls: 0.0818, loss_bbox: 0.2586, loss: 0.3404
+2021-05-03 19:40:23,182 - mmdet - INFO - Epoch [10][400/791]	lr: 1.200e-02, eta: 0:19:48, time: 0.633, data_time: 0.028, memory: 8413, loss_cls: 0.0869, loss_bbox: 0.2568, loss: 0.3436
+2021-05-03 19:40:54,906 - mmdet - INFO - Epoch [10][450/791]	lr: 1.200e-02, eta: 0:19:18, time: 0.634, data_time: 0.028, memory: 8413, loss_cls: 0.0888, loss_bbox: 0.2630, loss: 0.3518
+2021-05-03 19:41:26,490 - mmdet - INFO - Epoch [10][500/791]	lr: 1.200e-02, eta: 0:18:49, time: 0.632, data_time: 0.028, memory: 8413, loss_cls: 0.0889, loss_bbox: 0.2682, loss: 0.3571
+2021-05-03 19:41:58,184 - mmdet - INFO - Epoch [10][550/791]	lr: 1.200e-02, eta: 0:18:19, time: 0.634, data_time: 0.028, memory: 8413, loss_cls: 0.0838, loss_bbox: 0.2422, loss: 0.3259
+2021-05-03 19:42:29,783 - mmdet - INFO - Epoch [10][600/791]	lr: 1.200e-02, eta: 0:17:49, time: 0.632, data_time: 0.028, memory: 8413, loss_cls: 0.0860, loss_bbox: 0.2491, loss: 0.3351
+2021-05-03 19:43:01,485 - mmdet - INFO - Epoch [10][650/791]	lr: 1.200e-02, eta: 0:17:19, time: 0.634, data_time: 0.028, memory: 8413, loss_cls: 0.0826, loss_bbox: 0.2464, loss: 0.3291
+2021-05-03 19:43:33,071 - mmdet - INFO - Epoch [10][700/791]	lr: 1.200e-02, eta: 0:16:49, time: 0.632, data_time: 0.029, memory: 8413, loss_cls: 0.0866, loss_bbox: 0.2589, loss: 0.3454
+2021-05-03 19:44:04,461 - mmdet - INFO - Epoch [10][750/791]	lr: 1.200e-02, eta: 0:16:19, time: 0.628, data_time: 0.028, memory: 8413, loss_cls: 0.0895, loss_bbox: 0.2535, loss: 0.3430
+2021-05-03 19:44:29,946 - mmdet - INFO - Saving checkpoint at 10 epochs
+2021-05-03 19:44:50,237 - mmdet - INFO - Evaluating bbox...
+2021-05-03 19:44:52,151 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 19:44:52,151 - mmdet - INFO - Epoch(val) [10][791]	bbox_mAP: 0.4420, bbox_mAP_50: 0.6660, bbox_mAP_75: 0.4900, bbox_mAP_s: 0.1100, bbox_mAP_m: 0.3740, bbox_mAP_l: 0.5350, bbox_mAP_copypaste: 0.442 0.666 0.490 0.110 0.374 0.535
+2021-05-03 19:45:26,567 - mmdet - INFO - Epoch [11][50/791]	lr: 1.200e-02, eta: 0:15:21, time: 0.683, data_time: 0.080, memory: 8413, loss_cls: 0.0791, loss_bbox: 0.2471, loss: 0.3261
+2021-05-03 19:45:58,207 - mmdet - INFO - Epoch [11][100/791]	lr: 1.200e-02, eta: 0:14:51, time: 0.633, data_time: 0.027, memory: 8413, loss_cls: 0.0788, loss_bbox: 0.2501, loss: 0.3288
+2021-05-03 19:46:29,664 - mmdet - INFO - Epoch [11][150/791]	lr: 1.200e-02, eta: 0:14:21, time: 0.629, data_time: 0.028, memory: 8413, loss_cls: 0.0840, loss_bbox: 0.2561, loss: 0.3401
+2021-05-03 19:47:01,375 - mmdet - INFO - Epoch [11][200/791]	lr: 1.200e-02, eta: 0:13:51, time: 0.634, data_time: 0.027, memory: 8413, loss_cls: 0.0793, loss_bbox: 0.2484, loss: 0.3277
+2021-05-03 19:47:32,885 - mmdet - INFO - Epoch [11][250/791]	lr: 1.200e-02, eta: 0:13:21, time: 0.630, data_time: 0.028, memory: 8413, loss_cls: 0.0833, loss_bbox: 0.2534, loss: 0.3367
+2021-05-03 19:48:04,491 - mmdet - INFO - Epoch [11][300/791]	lr: 1.200e-02, eta: 0:12:51, time: 0.632, data_time: 0.029, memory: 8413, loss_cls: 0.0849, loss_bbox: 0.2475, loss: 0.3324
+2021-05-03 19:48:36,055 - mmdet - INFO - Epoch [11][350/791]	lr: 1.200e-02, eta: 0:12:22, time: 0.631, data_time: 0.028, memory: 8413, loss_cls: 0.0793, loss_bbox: 0.2451, loss: 0.3244
+2021-05-03 19:49:07,323 - mmdet - INFO - Epoch [11][400/791]	lr: 1.200e-02, eta: 0:11:52, time: 0.625, data_time: 0.028, memory: 8413, loss_cls: 0.0773, loss_bbox: 0.2449, loss: 0.3222
+2021-05-03 19:49:38,975 - mmdet - INFO - Epoch [11][450/791]	lr: 1.200e-02, eta: 0:11:22, time: 0.633, data_time: 0.027, memory: 8413, loss_cls: 0.0820, loss_bbox: 0.2524, loss: 0.3345
+2021-05-03 19:50:10,502 - mmdet - INFO - Epoch [11][500/791]	lr: 1.200e-02, eta: 0:10:52, time: 0.630, data_time: 0.028, memory: 8413, loss_cls: 0.0823, loss_bbox: 0.2572, loss: 0.3395
+2021-05-03 19:50:42,073 - mmdet - INFO - Epoch [11][550/791]	lr: 1.200e-02, eta: 0:10:22, time: 0.631, data_time: 0.028, memory: 8413, loss_cls: 0.0776, loss_bbox: 0.2425, loss: 0.3201
+2021-05-03 19:51:13,613 - mmdet - INFO - Epoch [11][600/791]	lr: 1.200e-02, eta: 0:09:52, time: 0.631, data_time: 0.029, memory: 8413, loss_cls: 0.0857, loss_bbox: 0.2381, loss: 0.3238
+2021-05-03 19:51:46,240 - mmdet - INFO - Epoch [11][650/791]	lr: 1.200e-02, eta: 0:09:22, time: 0.652, data_time: 0.033, memory: 8413, loss_cls: 0.0783, loss_bbox: 0.2426, loss: 0.3210
+2021-05-03 19:52:18,041 - mmdet - INFO - Epoch [11][700/791]	lr: 1.200e-02, eta: 0:08:52, time: 0.636, data_time: 0.030, memory: 8413, loss_cls: 0.0758, loss_bbox: 0.2518, loss: 0.3277
+2021-05-03 19:52:49,893 - mmdet - INFO - Epoch [11][750/791]	lr: 1.200e-02, eta: 0:08:22, time: 0.637, data_time: 0.029, memory: 8413, loss_cls: 0.0809, loss_bbox: 0.2477, loss: 0.3285
+2021-05-03 19:53:15,586 - mmdet - INFO - Saving checkpoint at 11 epochs
+2021-05-03 19:53:35,873 - mmdet - INFO - Evaluating bbox...
+2021-05-03 19:53:37,656 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 19:53:37,656 - mmdet - INFO - Epoch(val) [11][791]	bbox_mAP: 0.4560, bbox_mAP_50: 0.6770, bbox_mAP_75: 0.5010, bbox_mAP_s: 0.1110, bbox_mAP_m: 0.3920, bbox_mAP_l: 0.5460, bbox_mAP_copypaste: 0.456 0.677 0.501 0.111 0.392 0.546
+2021-05-03 19:54:12,726 - mmdet - INFO - Epoch [12][50/791]	lr: 1.200e-03, eta: 0:07:25, time: 0.696, data_time: 0.085, memory: 8413, loss_cls: 0.0743, loss_bbox: 0.2295, loss: 0.3038
+2021-05-03 19:54:44,202 - mmdet - INFO - Epoch [12][100/791]	lr: 1.200e-03, eta: 0:06:55, time: 0.630, data_time: 0.029, memory: 8413, loss_cls: 0.0737, loss_bbox: 0.2372, loss: 0.3109
+2021-05-03 19:55:15,786 - mmdet - INFO - Epoch [12][150/791]	lr: 1.200e-03, eta: 0:06:25, time: 0.632, data_time: 0.030, memory: 8413, loss_cls: 0.0779, loss_bbox: 0.2396, loss: 0.3174
+2021-05-03 19:55:47,353 - mmdet - INFO - Epoch [12][200/791]	lr: 1.200e-03, eta: 0:05:55, time: 0.631, data_time: 0.029, memory: 8413, loss_cls: 0.0764, loss_bbox: 0.2404, loss: 0.3169
+2021-05-03 19:56:18,820 - mmdet - INFO - Epoch [12][250/791]	lr: 1.200e-03, eta: 0:05:25, time: 0.629, data_time: 0.029, memory: 8413, loss_cls: 0.0722, loss_bbox: 0.2400, loss: 0.3122
+2021-05-03 19:56:50,602 - mmdet - INFO - Epoch [12][300/791]	lr: 1.200e-03, eta: 0:04:55, time: 0.636, data_time: 0.029, memory: 8413, loss_cls: 0.0715, loss_bbox: 0.2315, loss: 0.3030
+2021-05-03 19:57:22,249 - mmdet - INFO - Epoch [12][350/791]	lr: 1.200e-03, eta: 0:04:25, time: 0.633, data_time: 0.028, memory: 8413, loss_cls: 0.0737, loss_bbox: 0.2344, loss: 0.3081
+2021-05-03 19:57:53,823 - mmdet - INFO - Epoch [12][400/791]	lr: 1.200e-03, eta: 0:03:55, time: 0.631, data_time: 0.029, memory: 8413, loss_cls: 0.0734, loss_bbox: 0.2361, loss: 0.3096
+2021-05-03 19:58:25,573 - mmdet - INFO - Epoch [12][450/791]	lr: 1.200e-03, eta: 0:03:25, time: 0.635, data_time: 0.030, memory: 8413, loss_cls: 0.0779, loss_bbox: 0.2446, loss: 0.3225
+2021-05-03 19:58:57,418 - mmdet - INFO - Epoch [12][500/791]	lr: 1.200e-03, eta: 0:02:55, time: 0.637, data_time: 0.029, memory: 8413, loss_cls: 0.0692, loss_bbox: 0.2290, loss: 0.2982
+2021-05-03 19:59:28,987 - mmdet - INFO - Epoch [12][550/791]	lr: 1.200e-03, eta: 0:02:25, time: 0.631, data_time: 0.029, memory: 8413, loss_cls: 0.0741, loss_bbox: 0.2369, loss: 0.3110
+2021-05-03 20:00:00,454 - mmdet - INFO - Epoch [12][600/791]	lr: 1.200e-03, eta: 0:01:55, time: 0.629, data_time: 0.029, memory: 8413, loss_cls: 0.0710, loss_bbox: 0.2315, loss: 0.3025
+2021-05-03 20:00:32,130 - mmdet - INFO - Epoch [12][650/791]	lr: 1.200e-03, eta: 0:01:25, time: 0.634, data_time: 0.030, memory: 8413, loss_cls: 0.0834, loss_bbox: 0.2447, loss: 0.3281
+2021-05-03 20:01:03,594 - mmdet - INFO - Epoch [12][700/791]	lr: 1.200e-03, eta: 0:00:54, time: 0.629, data_time: 0.029, memory: 8413, loss_cls: 0.0660, loss_bbox: 0.2278, loss: 0.2938
+2021-05-03 20:01:35,201 - mmdet - INFO - Epoch [12][750/791]	lr: 1.200e-03, eta: 0:00:24, time: 0.632, data_time: 0.028, memory: 8413, loss_cls: 0.0734, loss_bbox: 0.2316, loss: 0.3051
+2021-05-03 20:02:00,896 - mmdet - INFO - Saving checkpoint at 12 epochs
+2021-05-03 20:02:21,343 - mmdet - INFO - Evaluating bbox...
+2021-05-03 20:02:23,048 - mmdet - INFO - Exp name: yolof_r50_c5_8x8_1x_coco.py
+2021-05-03 20:02:23,048 - mmdet - INFO - Epoch(val) [12][791]	bbox_mAP: 0.4580, bbox_mAP_50: 0.6760, bbox_mAP_75: 0.5110, bbox_mAP_s: 0.1080, bbox_mAP_m: 0.3980, bbox_mAP_l: 0.5480, bbox_mAP_copypaste: 0.458 0.676 0.511 0.108 0.398 0.548
