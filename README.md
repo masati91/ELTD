@@ -37,9 +37,9 @@ Please see [getting_started.md](get_started.md) for the basic usage of MMDetecti
 ```
 @article{kang2021,  
   author={BoSeon Kang, ChangSeong Jeong},  
-  journal=,   
+  journal={},   
   title={Edgeless Layer for Recyclable Trash Detection},   
   year={2021}, 
-  pages=,  
-  doi=}
+  pages={},  
+  doi={}}
 ```
