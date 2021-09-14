@@ -91,7 +91,7 @@ python demo/f1score/f1_score.py --gt_file ${ANSWER_FILE} --pred_file ${YOUR_ANSW
 |YOLOF     |  R-50-FPN    |  82.404 |0.458 |[Download](https://drive.google.com/file/d/1j3PLLx0ZbN_X9msmFtfLVrqSKICkGPYr/view?usp=sharing)|
 |SABL      |  R-50-FPN    |  79.805 |0.475 |[Download](https://drive.google.com/file/d/1e4nMsWcJz5tFpGAYF9BoF3ZkV9Ungi77/view?usp=sharing)|
 |FSAF      |   R-50-FPN   |  80.212 |0.479 |[Download](https://drive.google.com/file/d/1KE512iI6W0rYqYoZ_jAdAkIkV5w0ECO0/view?usp=sharing)|
-|**ELTD**  |   **R-50-FPN**   |  **82.849**  |**0.518** |[model](https://drive.google.com/file/d/15tNF1qiDDHKERrxVUeE017GjWW2deqKQ/view?usp=sharing)|
+|**ELTD**  |   **R-50-FPN**   |  **82.849**  |**0.518** |[Download](https://drive.google.com/file/d/15tNF1qiDDHKERrxVUeE017GjWW2deqKQ/view?usp=sharing)|
 
 * Large Size Backbone
 
@@ -100,7 +100,7 @@ python demo/f1score/f1_score.py --gt_file ${ANSWER_FILE} --pred_file ${YOUR_ANSW
 |CornerNet      |  Hourglass104  |  84.724 | 0.575 |[Download](https://drive.google.com/file/d/1957d5S29wC77OQPQt92L52Vmtjzbryy3/view?usp=sharing)|
 |CentripetalNet |  Hourglass104  |  79.326 | 0.586 |[Download](https://drive.google.com/file/d/175NUMA2CFsJ4DntoVdlUKVxqAjEdwaRq/view?usp=sharing)|
 |**ELTD**       |   R-101-FPN    |  84.899 | 0.545 |[Download](https://drive.google.com/file/d/1WsQkUNNm2W3y6dfp7vzfUsfahgKFBLVn/view?usp=sharing)|
-|**ELTD**       |  **X-101-64x4d-FPN**   |  **85.594** |**0.596** |[model](https://drive.google.com/file/d/15m57mcpxHermPc_betT8_LOVMbwFKUtR/view?usp=sharing)|
+|**ELTD**       |  **X-101-64x4d-FPN**   |  **85.594** |**0.596** |[Download](https://drive.google.com/file/d/15m57mcpxHermPc_betT8_LOVMbwFKUtR/view?usp=sharing)|
 
 
 
