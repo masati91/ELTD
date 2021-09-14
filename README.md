@@ -91,7 +91,7 @@ python demo/f1score/f1_score.py --gt_file ${ANSWER_FILE} --pred_file ${YOUR_ANSW
 |YOLOF     |  R-50-FPN    |  82.404 |0.458 |[model]|
 |SABL      |  R-50-FPN    |  79.805 |0.475 |[model]|
 |FSAF      |   R-50-FPN   |  80.212 |0.479 |[model]|
-|**ELTD**  |   R-50-FPN   |  **0.518**  |**0.678** |[model]|
+|**ELTD**  |   **R-50-FPN**   |  **0.518**  |**0.678** |[model]|
 
 * Large Size Backbone
 * 
@@ -100,7 +100,7 @@ python demo/f1score/f1_score.py --gt_file ${ANSWER_FILE} --pred_file ${YOUR_ANSW
 |CornerNet      |  Hourglass104  |  84.724 | 0.575 |[model]|
 |CentripetalNet |  Hourglass104  |  79.326 | 0.586 |[model]|
 |**ELTD**       |   R-101-FPN    |  84.899 | 0.545 |[model]|
-|**ELTD**       |  X-101-64x4d-FPN   |  **85.594** |**0.596** |[model]|
+|**ELTD**       |  **X-101-64x4d-FPN**   |  **85.594** |**0.596** |[model]|
 
 
 
